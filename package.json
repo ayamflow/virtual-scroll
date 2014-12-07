@@ -1,0 +1,28 @@
+{
+  "name": "virtual-scroll",
+  "version": "1.0.0",
+  "description": "Smooth fake scroll using CSS transform",
+  "main": "index.js",
+  "scripts": {
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ayamflow/virtual-scroll"
+  },
+  "keywords": [
+    "virtual",
+    "scroll",
+    "smooth"
+  ],
+  "author": "= <=>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ayamflow/virtual-scroll/issues"
+  },
+  "homepage": "https://github.com/ayamflow/virtual-scroll",
+  "dependencies": {
+    "defaults": "^1.0.0",
+    "tiny-emitter": "^1.0.0"
+  }
+}
