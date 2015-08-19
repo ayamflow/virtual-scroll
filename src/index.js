@@ -1,0 +1,194 @@
+'use strict';
+
+var defaults = require('defaults');
+var Emitter = require('tiny-emitter');
+var Lethargy = require('lethargy').Lethargy;
+var support = require('./support');
+var clone = require('./clone');
+var bindAll = require('bindall-standalone');
+var EVT_ID = 'virtualscroll';
+
+module.exports = VirtualScroll;
+
+var keyCodes = {
+  LEFT: 37,
+  UP: 38,
+  RIGHT: 39,
+  DOWN: 40
+};
+
+function VirtualScroll(options) {
+    bindAll(this, '_onWheel', '_onMouseWheel', '_onTouchStart', '_onTouchMove', '_onKeyDown');
+
+    this.options = defaults(options || {}, {
+        mouseMultiplier: 1,
+        touchMultiplier: 2,
+        firefoxMultiplier: 15,
+        keyStep: 120,
+        preventTouch: false,
+        limitInertia: false
+    });
+
+    if (this.limitInertia) this._lethargy = new Lethargy();
+
+    this._emitter = new Emitter();
+    this._event = {
+        y: 0,
+        x: 0,
+        deltaX: 0,
+        deltaY: 0,
+        originalEvent: null
+    };
+
+    this.touchStartX = null;
+    this.touchStartY = null;
+}
+
+VirtualScroll.prototype._notify = function(e) {
+    var evt = this._event;
+    evt.x += evt.deltaX;
+    evt.y += evt.deltaY;
+    evt.originalEvent = e;
+
+   this._emitter.emit(EVT_ID, clone(evt));
+};
+
+VirtualScroll.prototype._onWheel = function(e) {
+    var options = this.options;
+    if (options.limitInertia && this._lethargy.check(e) === false) return;
+
+    var evt = this._event;
+
+    // In Chrome and in Firefox (at least the new one)
+    evt.deltaX = e.wheelDeltaX || e.deltaX * -1;
+    evt.deltaY = e.wheelDeltaY || e.deltaY * -1;
+
+    // for our purpose deltamode = 1 means user is on a wheel mouse, not touch pad
+    // real meaning: https://developer.mozilla.org/en-US/docs/Web/API/WheelEvent#Delta_modes
+    if(support.isFirefox && e.deltaMode == 1) {
+        evt.deltaX *= options.firefoxMultiplier;
+        evt.deltaY *= options.firefoxMultiplier;
+    }
+
+    evt.deltaX *= options.mouseMultiplier;
+    evt.deltaY *= options.mouseMultiplier;
+
+    this._notify(e);
+};
+
+VirtualScroll.prototype._onMouseWheel = function(e) {
+    if (this.options.limitInertia && this._lethargy.check(e) === false) return;
+
+    var evt = this._event;
+
+    // In Safari, IE and in Chrome if 'wheel' isn't defined
+    evt.deltaX = (e.wheelDeltaX) ? e.wheelDeltaX : 0;
+    evt.deltaY = (e.wheelDeltaY) ? e.wheelDeltaY : e.wheelDelta;
+
+    this._notify(e);
+};
+
+VirtualScroll.prototype._onTouchStart = function(e) {
+    var t = (e.targetTouches) ? e.targetTouches[0] : e;
+    this.touchStartX = t.pageX;
+    this.touchStartY = t.pageY;
+};
+
+VirtualScroll.prototype._onTouchMove = function(e) {
+    if(this.options.preventTouch) e.preventDefault();
+    var evt = this._event;
+
+    var t = (e.targetTouches) ? e.targetTouches[0] : e;
+
+    evt.deltaX = (t.pageX - this.touchStartX) * this.options.touchMultiplier;
+    evt.deltaY = (t.pageY - this.touchStartY) * this.options.touchMultiplier;
+
+    this.touchStartX = t.pageX;
+    this.touchStartY = t.pageY;
+
+    this._notify(e);
+};
+
+VirtualScroll.prototype._onKeyDown = function(e) {
+    var evt = this._event;
+    evt.deltaX = evt.deltaY = 0;
+
+    switch(e.keyCode) {
+        case keyCodes.LEFT:
+        case keyCodes.UP:
+            evt.deltaY = this.options.keyStep;
+            break;
+
+        case keyCodes.RIGHT:
+        case keyCodes.DOWN:
+            evt.deltaY = - this.options.keyStep;
+            break;
+
+        default:
+            return;
+    }
+
+    this._notify(e);
+};
+
+VirtualScroll.prototype._bind = function() {
+    if(support.hasWheelEvent) document.addEventListener('wheel', this._onWheel);
+    if(support.hasMouseWheelEvent) document.addEventListener('mousewheel', this._onMouseWheel);
+
+    if(support.hasTouch) {
+        document.addEventListener('touchstart', this._onTouchStart);
+        document.addEventListener('touchmove', this._onTouchMove);
+    }
+
+    if(support.hasPointer && support.hasTouchWin) {
+        bodyTouchAction = document.body.style.msTouchAction;
+        document.body.style.msTouchAction = 'none';
+        document.addEventListener('MSPointerDown', this._onTouchStart, true);
+        document.addEventListener('MSPointerMove', this._onTouchMove, true);
+    }
+
+    if(support.hasKeyDown) document.addEventListener('keydown', this._onKeyDown);
+};
+
+VirtualScroll.prototype._unbind = function() {
+    if(support.hasWheelEvent) document.removeEventListener('wheel', this._onWheel);
+    if(support.hasMouseWheelEvent) document.removeEventListener('mousewheel', this._onMouseWheel);
+
+    if(support.hasTouch) {
+        document.removeEventListener('touchstart', this._onTouchStart);
+        document.removeEventListener('touchmove', this._onTouchMove);
+    }
+
+    if(support.hasPointer && support.hasTouchWin) {
+        document.body.style.msTouchAction = bodyTouchAction;
+        document.removeEventListener('MSPointerDown', this._onTouchStart, true);
+        document.removeEventListener('MSPointerMove', this._onTouchMove, true);
+    }
+
+    if(support.hasKeyDown) document.removeEventListener('keydown', this._onKeyDown);
+};
+
+VirtualScroll.prototype.on = function(cb, ctx) {
+  this._emitter.on(EVT_ID, cb, ctx);
+
+  var events = this._emitter.e;
+  if (events && events[EVT_ID] && events[EVT_ID].length === 1) this._bind();
+};
+
+VirtualScroll.prototype.off = function(cb, ctx) {
+  this._emitter.off(EVT_ID, cb, ctx);
+
+  var events = this._emitter.e;
+  if (events && events[EVT_ID] && events[EVT_ID].length <= 0) this._unbind();
+};
+
+VirtualScroll.prototype.reset = function() {
+    var evt = this._event;
+    evt.x = 0;
+    evt.y = 0;
+};
+
+VirtualScroll.prototype.destroy = function() {
+    this._emitter.off();
+    this._unbind();
+};

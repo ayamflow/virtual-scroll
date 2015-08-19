@@ -4,7 +4,8 @@
   "description": "Smooth fake scroll using CSS transform",
   "main": "index.js",
   "scripts": {
-    "test": ""
+    "test": "./node_modules/.bin/prova ./test/**/*.js -b -l phantom -q",
+    "test-browser": "./node_modules/.bin/prova ./test/**/*.js -b -l chrome"
   },
   "repository": {
     "type": "git",
@@ -22,7 +23,12 @@
   },
   "homepage": "https://github.com/ayamflow/virtual-scroll",
   "dependencies": {
+    "bindall-standalone": "^1.0.5",
     "defaults": "^1.0.0",
+    "lethargy": "git+https://github.com/d4nyll/lethargy.git",
     "tiny-emitter": "^1.0.0"
+  },
+  "devDependencies": {
+    "prova": "^2.1.2"
   }
 }
