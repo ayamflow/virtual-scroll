@@ -16,7 +16,7 @@ This is a fork of Bartek Drozdz VirtualScroll util. See his [article](http://www
 ### Usage & API
 For in-depth usage and tutorial, you can check Bartek's article (link above).
 
-- `new VirtualScroll(options)``
+- `new VirtualScroll(options)`
 Return a new instance of VirtualScroll. See the options below.
 
 - `instance.on(fn, context)`
@@ -32,7 +32,7 @@ Events note:
 Each instance will listen only once to any DOM listener. These listener are enabled/disabled automatically. However, it's a good practice to always call `destroy()` on your VirtualScroll instance, especially if you are working with a SPA.
 
 ### Options
-- mouseMultiplier: General multiplier for all mousehweel including FF. *Default to 1.*
+- mouseMultiplier: General multiplier for all mousewheel (including Firefox). *Default to 1.*
 - touchMultiplier: Mutiply the touch action by two making the scroll a bit faster than finger movement. *Default is 2.*
 - firefoxMultiplier: Firefox on Windows needs a boost, since scrolling is very slow. *Default is 15.*
 - keyStep: How many pixels to move with each key press. *Default is 120.*

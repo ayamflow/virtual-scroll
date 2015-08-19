@@ -11,10 +11,10 @@ var EVT_ID = 'virtualscroll';
 module.exports = VirtualScroll;
 
 var keyCodes = {
-  LEFT: 37,
-  UP: 38,
-  RIGHT: 39,
-  DOWN: 40
+    LEFT: 37,
+    UP: 38,
+    RIGHT: 39,
+    DOWN: 40
 };
 
 function VirtualScroll(options) {
@@ -29,7 +29,7 @@ function VirtualScroll(options) {
         limitInertia: false
     });
 
-    if (this.limitInertia) this._lethargy = new Lethargy();
+    if (this.options.limitInertia) this._lethargy = new Lethargy();
 
     this._emitter = new Emitter();
     this._event = {
@@ -42,6 +42,7 @@ function VirtualScroll(options) {
 
     this.touchStartX = null;
     this.touchStartY = null;
+    this.bodyTouchAction = null;
 }
 
 VirtualScroll.prototype._notify = function(e) {
@@ -55,7 +56,7 @@ VirtualScroll.prototype._notify = function(e) {
 
 VirtualScroll.prototype._onWheel = function(e) {
     var options = this.options;
-    if (options.limitInertia && this._lethargy.check(e) === false) return;
+    if (this._lethargy && this._lethargy.check(e) === false) return;
 
     var evt = this._event;
 
@@ -141,7 +142,7 @@ VirtualScroll.prototype._bind = function() {
     }
 
     if(support.hasPointer && support.hasTouchWin) {
-        bodyTouchAction = document.body.style.msTouchAction;
+        this.bodyTouchAction = document.body.style.msTouchAction;
         document.body.style.msTouchAction = 'none';
         document.addEventListener('MSPointerDown', this._onTouchStart, true);
         document.addEventListener('MSPointerMove', this._onTouchMove, true);
@@ -160,7 +161,7 @@ VirtualScroll.prototype._unbind = function() {
     }
 
     if(support.hasPointer && support.hasTouchWin) {
-        document.body.style.msTouchAction = bodyTouchAction;
+        document.body.style.msTouchAction = this.bodyTouchAction;
         document.removeEventListener('MSPointerDown', this._onTouchStart, true);
         document.removeEventListener('MSPointerMove', this._onTouchMove, true);
     }
@@ -179,7 +180,7 @@ VirtualScroll.prototype.off = function(cb, ctx) {
   this._emitter.off(EVT_ID, cb, ctx);
 
   var events = this._emitter.e;
-  if (events && events[EVT_ID] && events[EVT_ID].length <= 0) this._unbind();
+  if (!events[EVT_ID] || events[EVT_ID].length <= 0) this._unbind();
 };
 
 VirtualScroll.prototype.reset = function() {

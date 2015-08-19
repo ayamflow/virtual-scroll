@@ -2,7 +2,7 @@
   "name": "virtual-scroll",
   "version": "1.0.0",
   "description": "Smooth fake scroll using CSS transform",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "./node_modules/.bin/prova ./test/**/*.js -b -l phantom -q",
     "test-browser": "./node_modules/.bin/prova ./test/**/*.js -b -l chrome"
