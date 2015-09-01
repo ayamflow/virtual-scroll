@@ -26,6 +26,7 @@ function VirtualScroll(options) {
         firefoxMultiplier: 15,
         keyStep: 120,
         preventTouch: false,
+        unpreventTouchClass: 'vs-touchmove-allowed',
         limitInertia: false
     });
 
@@ -96,13 +97,18 @@ VirtualScroll.prototype._onTouchStart = function(e) {
 };
 
 VirtualScroll.prototype._onTouchMove = function(e) {
-    if(this.options.preventTouch) e.preventDefault();
+    var options = this.options;
+    if(options.preventTouch
+        && !e.target.classList.contains(options.unpreventTouchClass)) {
+        e.preventDefault();
+    }
+
     var evt = this._event;
 
     var t = (e.targetTouches) ? e.targetTouches[0] : e;
 
-    evt.deltaX = (t.pageX - this.touchStartX) * this.options.touchMultiplier;
-    evt.deltaY = (t.pageY - this.touchStartY) * this.options.touchMultiplier;
+    evt.deltaX = (t.pageX - this.touchStartX) * options.touchMultiplier;
+    evt.deltaY = (t.pageY - this.touchStartY) * options.touchMultiplier;
 
     this.touchStartX = t.pageX;
     this.touchStartY = t.pageY;

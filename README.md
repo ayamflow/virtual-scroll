@@ -37,6 +37,7 @@ Each instance will listen only once to any DOM listener. These listener are enab
 - firefoxMultiplier: Firefox on Windows needs a boost, since scrolling is very slow. *Default is 15.*
 - keyStep: How many pixels to move with each key press. *Default is 120.*
 - preventTouch: If true, automatically call `e.preventDefault` on touchMove. *Default is false.*
+- unpreventTouchClass: Elements with this class won't `preventDefault` on touchMove. For instance, useful for a scrolling text inside a VirtualScroll-controled element. *Default is `vs-touchmove-allowed`*.
 - limitInertia: if true, will leverage [Lethargy](https://github.com/d4nyll/lethargy) to avoid everlasting scroll events (mostly on Apple Mouse, Trackpad, and free-wheel mouse). *Default is false.*
 
 ## Todo
