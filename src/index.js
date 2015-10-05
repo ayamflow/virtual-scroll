@@ -37,8 +37,7 @@ function VirtualScroll(options) {
         y: 0,
         x: 0,
         deltaX: 0,
-        deltaY: 0,
-        originalEvent: null
+        deltaY: 0
     };
 
     this.touchStartX = null;
@@ -50,9 +49,14 @@ VirtualScroll.prototype._notify = function(e) {
     var evt = this._event;
     evt.x += evt.deltaX;
     evt.y += evt.deltaY;
-    evt.originalEvent = e;
 
-   this._emitter.emit(EVT_ID, clone(evt));
+   this._emitter.emit(EVT_ID, {
+        x: evt.x,
+        y: evt.y,
+        deltaX: evt.deltaX,
+        deltaY: evt.deltaY,
+        originalEvent: e
+   });
 };
 
 VirtualScroll.prototype._onWheel = function(e) {
