@@ -25,7 +25,7 @@
   "dependencies": {
     "bindall-standalone": "^1.0.5",
     "defaults": "^1.0.0",
-    "lethargy": "git+https://github.com/d4nyll/lethargy.git",
+    "lethargy": "^1.0.2",
     "tiny-emitter": "^1.0.0"
   },
   "devDependencies": {
