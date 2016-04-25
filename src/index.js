@@ -1,6 +1,6 @@
 'use strict';
 
-var defaults = require('defaults');
+var objectAssign = require('object-assign');
 var Emitter = require('tiny-emitter');
 var Lethargy = require('lethargy').Lethargy;
 var support = require('./support');
@@ -20,7 +20,7 @@ var keyCodes = {
 function VirtualScroll(options) {
     bindAll(this, '_onWheel', '_onMouseWheel', '_onTouchStart', '_onTouchMove', '_onKeyDown');
 
-    this.options = defaults(options || {}, {
+    this.options = objectAssign({
         mouseMultiplier: 1,
         touchMultiplier: 2,
         firefoxMultiplier: 15,
@@ -28,7 +28,7 @@ function VirtualScroll(options) {
         preventTouch: false,
         unpreventTouchClass: 'vs-touchmove-allowed',
         limitInertia: false
-    });
+    }, options);
 
     if (this.options.limitInertia) this._lethargy = new Lethargy();
 
