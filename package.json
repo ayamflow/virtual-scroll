@@ -24,8 +24,8 @@
   "homepage": "https://github.com/ayamflow/virtual-scroll",
   "dependencies": {
     "bindall-standalone": "^1.0.5",
-    "defaults": "^1.0.0",
     "lethargy": "^1.0.2",
+    "object-assign": "^4.0.1",
     "tiny-emitter": "^1.0.0"
   },
   "devDependencies": {
