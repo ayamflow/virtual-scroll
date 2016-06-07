@@ -11,7 +11,9 @@ This is a fork of Bartek Drozdz VirtualScroll util. See his [article](http://www
 - modules (using a dedicated Emitter for instance)
 
 ### Installation
-`npm i virtual-scroll -S`
+```
+npm i virtual-scroll -S
+```
 
 ### Usage & API
 For in-depth usage and tutorial, you can check Bartek's article (link above).
@@ -32,15 +34,14 @@ Events note:
 Each instance will listen only once to any DOM listener. These listener are enabled/disabled automatically. However, it's a good practice to always call `destroy()` on your VirtualScroll instance, especially if you are working with a SPA.
 
 ### Options
+- el: the target element for mobile touch events. *Defaults to window.*
 - mouseMultiplier: General multiplier for all mousewheel (including Firefox). *Default to 1.*
-- touchMultiplier: Mutiply the touch action by two making the scroll a bit faster than finger movement. *Default is 2.*
-- firefoxMultiplier: Firefox on Windows needs a boost, since scrolling is very slow. *Default is 15.*
-- keyStep: How many pixels to move with each key press. *Default is 120.*
-- preventTouch: If true, automatically call `e.preventDefault` on touchMove. *Default is false.*
-- unpreventTouchClass: Elements with this class won't `preventDefault` on touchMove. For instance, useful for a scrolling text inside a VirtualScroll-controled element. *Default is `vs-touchmove-allowed`*.
-- limitInertia: if true, will leverage [Lethargy](https://github.com/d4nyll/lethargy) to avoid everlasting scroll events (mostly on Apple Mouse, Trackpad, and free-wheel mouse). *Default is false.*
+- touchMultiplier: Mutiply the touch action by this modifier to make scroll faster than finger movement. *Defaults to 2.*
+- firefoxMultiplier: Firefox on Windows needs a boost, since scrolling is very slow. *Defaults to 15.*
+- keyStep: How many pixels to move with each key press. *Defaults to 120.*
+- preventTouch: If true, automatically call `e.preventDefault` on touchMove. *Defaults to false.*
+- unpreventTouchClass: Elements with this class won't `preventDefault` on touchMove. For instance, useful for a scrolling text inside a VirtualScroll-controled element. *Defaults to `vs-touchmove-allowed`*.
+- limitInertia: if true, will leverage [Lethargy](https://github.com/d4nyll/lethargy) to avoid everlasting scroll events (mostly on Apple Mouse, Trackpad, and free-wheel mouse). *Defaults to false.*
 
-## Todo
-- In-depth tests
-- Possibility to pass a 'keys' options (bind other keyboard keys)
-- Add a "direction" option to force a single direction?
+### License
+MIT.
