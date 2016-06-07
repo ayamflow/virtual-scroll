@@ -20,6 +20,11 @@ var keyCodes = {
 function VirtualScroll(options) {
     bindAll(this, '_onWheel', '_onMouseWheel', '_onTouchStart', '_onTouchMove', '_onKeyDown');
 
+    this.el = window;
+    if (options && options.el) {
+        this.el = options.el;
+        delete options.el;
+    }
     this.options = defaults(options || {}, {
         mouseMultiplier: 1,
         touchMultiplier: 2,
@@ -143,37 +148,37 @@ VirtualScroll.prototype._onKeyDown = function(e) {
 };
 
 VirtualScroll.prototype._bind = function() {
-    if(support.hasWheelEvent) document.addEventListener('wheel', this._onWheel);
-    if(support.hasMouseWheelEvent) document.addEventListener('mousewheel', this._onMouseWheel);
+    if(support.hasWheelEvent) this.el.addEventListener('wheel', this._onWheel);
+    if(support.hasMouseWheelEvent) this.el.addEventListener('mousewheel', this._onMouseWheel);
 
     if(support.hasTouch) {
-        document.addEventListener('touchstart', this._onTouchStart);
-        document.addEventListener('touchmove', this._onTouchMove);
+        this.el.addEventListener('touchstart', this._onTouchStart);
+        this.el.addEventListener('touchmove', this._onTouchMove);
     }
 
     if(support.hasPointer && support.hasTouchWin) {
         this.bodyTouchAction = document.body.style.msTouchAction;
         document.body.style.msTouchAction = 'none';
-        document.addEventListener('MSPointerDown', this._onTouchStart, true);
-        document.addEventListener('MSPointerMove', this._onTouchMove, true);
+        this.el.addEventListener('MSPointerDown', this._onTouchStart, true);
+        this.el.addEventListener('MSPointerMove', this._onTouchMove, true);
     }
 
     if(support.hasKeyDown) document.addEventListener('keydown', this._onKeyDown);
 };
 
 VirtualScroll.prototype._unbind = function() {
-    if(support.hasWheelEvent) document.removeEventListener('wheel', this._onWheel);
-    if(support.hasMouseWheelEvent) document.removeEventListener('mousewheel', this._onMouseWheel);
+    if(support.hasWheelEvent) this.el.removeEventListener('wheel', this._onWheel);
+    if(support.hasMouseWheelEvent) this.el.removeEventListener('mousewheel', this._onMouseWheel);
 
     if(support.hasTouch) {
-        document.removeEventListener('touchstart', this._onTouchStart);
-        document.removeEventListener('touchmove', this._onTouchMove);
+        this.el.removeEventListener('touchstart', this._onTouchStart);
+        this.el.removeEventListener('touchmove', this._onTouchMove);
     }
 
     if(support.hasPointer && support.hasTouchWin) {
         document.body.style.msTouchAction = this.bodyTouchAction;
-        document.removeEventListener('MSPointerDown', this._onTouchStart, true);
-        document.removeEventListener('MSPointerMove', this._onTouchMove, true);
+        this.el.removeEventListener('MSPointerDown', this._onTouchStart, true);
+        this.el.removeEventListener('MSPointerMove', this._onTouchMove, true);
     }
 
     if(support.hasKeyDown) document.removeEventListener('keydown', this._onKeyDown);
