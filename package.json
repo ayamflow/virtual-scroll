@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "./node_modules/.bin/prova ./test/**/*.js -b -l phantom -q",
-    "test-browser": "./node_modules/.bin/prova ./test/**/*.js -b -l chrome"
+    "test-browser": "./node_modules/.bin/prova ./test/**/*.js -b -l chrome -q"
   },
   "repository": {
     "type": "git",
@@ -29,6 +29,7 @@
     "tiny-emitter": "^1.0.0"
   },
   "devDependencies": {
-    "prova": "^2.1.2"
+    "prova": "^2.1.2",
+    "tiny-trigger": "scottcorgan/tiny-trigger"
   }
 }
