@@ -2,7 +2,7 @@ virtual-scroll
 =====
 
 Custom scroll event with inertia/momentum, touch (works on <=iOS7) and keyboard compatible.
-This is a fork of Bartek Drozdz VirtualScroll util. See his [article](http://www.everyday3d.com/blog/index.php/2014/08/18/smooth-scrolling-with-virtualscroll/)) for a complete description.
+This is a fork of Bartek Drozdz VirtualScroll util. See his [article](http://www.everyday3d.com/blog/index.php/2014/08/18/smooth-scrolling-with-virtualscroll/) for a complete description.
 
 ### Goals of the fork
 - Easier to add in a CommonJS / require environment
