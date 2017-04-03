@@ -8,6 +8,7 @@ module.exports = (function getSupport() {
         hasTouchWin: navigator.msMaxTouchPoints && navigator.msMaxTouchPoints > 1,
         hasPointer: !!window.navigator.msPointerEnabled,
         hasKeyDown: 'onkeydown' in document,
+        hasKeyUp: 'onkeyup' in document,
         isFirefox: navigator.userAgent.indexOf('Firefox') > -1
     };
 })();

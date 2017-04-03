@@ -14,13 +14,15 @@ var keyCodes = {
     LEFT: 37,
     UP: 38,
     RIGHT: 39,
-    DOWN: 40
+    DOWN: 40,
+    SPACE: 32,
+    SHIFT: 16
 };
 
 function VirtualScroll(options) {
-    bindAll(this, '_onWheel', '_onMouseWheel', '_onTouchStart', '_onTouchMove', '_onKeyDown');
+    bindAll(this, '_onWheel', '_onMouseWheel', '_onTouchStart', '_onTouchMove', '_onKeyDown', '_onKeyUp');
 
-	this.el = window;
+    this.el = window;
     if (options && options.el) {
         this.el = options.el;
         delete options.el;
@@ -32,7 +34,7 @@ function VirtualScroll(options) {
         keyStep: 120,
         preventTouch: false,
         unpreventTouchClass: 'vs-touchmove-allowed',
-        limitInertia: false
+        limitInertia: false,
     }, options);
 
     if (this.options.limitInertia) this._lethargy = new Lethargy();
@@ -44,7 +46,7 @@ function VirtualScroll(options) {
         deltaX: 0,
         deltaY: 0
     };
-
+    this.shiftKeyPressed = false;
     this.touchStartX = null;
     this.touchStartY = null;
     this.bodyTouchAction = null;
@@ -128,7 +130,10 @@ VirtualScroll.prototype._onTouchMove = function(e) {
 VirtualScroll.prototype._onKeyDown = function(e) {
     var evt = this._event;
     evt.deltaX = evt.deltaY = 0;
-
+    var windowHeight = window.innerHeight || documentElement.clientHeight || body.clientHeight
+    if (e.keyCode === keyCodes.SHIFT) {
+      this.shiftKeyPressed = true
+    }
     switch(e.keyCode) {
         case keyCodes.LEFT:
         case keyCodes.UP:
@@ -139,12 +144,23 @@ VirtualScroll.prototype._onKeyDown = function(e) {
         case keyCodes.DOWN:
             evt.deltaY = - this.options.keyStep;
             break;
-
+        case this.shiftKeyPressed && keyCodes.SPACE:
+            evt.deltaY = windowHeight
+            break;
+        case keyCodes.SPACE:
+            evt.deltaY = - windowHeight
+            break;
         default:
             return;
     }
 
     this._notify(e);
+};
+
+VirtualScroll.prototype._onKeyUp = function(e) {
+    if (e.keyCode === keyCodes.SHIFT) {
+      this.shiftKeyPressed = false
+    }
 };
 
 VirtualScroll.prototype._bind = function() {
@@ -164,6 +180,7 @@ VirtualScroll.prototype._bind = function() {
     }
 
     if(support.hasKeyDown) document.addEventListener('keydown', this._onKeyDown);
+    if(support.hasKeyUp) document.addEventListener('keyup', this._onKeyUp);
 };
 
 VirtualScroll.prototype._unbind = function() {
@@ -182,6 +199,7 @@ VirtualScroll.prototype._unbind = function() {
     }
 
     if(support.hasKeyDown) document.removeEventListener('keydown', this._onKeyDown);
+    if(support.hasKeyUp) document.removeEventListener('keydown', this.onKeyUp);
 };
 
 VirtualScroll.prototype.on = function(cb, ctx) {
