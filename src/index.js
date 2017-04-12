@@ -33,7 +33,7 @@ function VirtualScroll(options) {
         keyStep: 120,
         preventTouch: false,
         unpreventTouchClass: 'vs-touchmove-allowed',
-        limitInertia: false,
+        limitInertia: false
     }, options);
 
     if (this.options.limitInertia) this._lethargy = new Lethargy();
@@ -60,7 +60,7 @@ VirtualScroll.prototype._notify = function(e) {
         y: evt.y,
         deltaX: evt.deltaX,
         deltaY: evt.deltaY,
-        originalEvent: e,
+        originalEvent: e
    });
 };
 
