@@ -16,7 +16,7 @@ var keyCodes = {
     RIGHT: 39,
     DOWN: 40,
     SPACE: 32,
-    SHIFT: 16
+    SHIFT: 16,
 };
 
 function VirtualScroll(options) {
@@ -62,7 +62,7 @@ VirtualScroll.prototype._notify = function(e) {
         y: evt.y,
         deltaX: evt.deltaX,
         deltaY: evt.deltaY,
-        originalEvent: e
+        originalEvent: e,
    });
 };
 
@@ -130,10 +130,12 @@ VirtualScroll.prototype._onTouchMove = function(e) {
 VirtualScroll.prototype._onKeyDown = function(e) {
     var evt = this._event;
     evt.deltaX = evt.deltaY = 0;
-    var windowHeight = window.innerHeight || documentElement.clientHeight || body.clientHeight
+    var windowHeight = (window.innerHeight || documentElement.clientHeight || body.clientHeight) - 40;
+
     if (e.keyCode === keyCodes.SHIFT) {
-      this.shiftKeyPressed = true
+      this.shiftKeyPressed = true;
     }
+
     switch(e.keyCode) {
         case keyCodes.LEFT:
         case keyCodes.UP:
@@ -144,11 +146,11 @@ VirtualScroll.prototype._onKeyDown = function(e) {
         case keyCodes.DOWN:
             evt.deltaY = - this.options.keyStep;
             break;
-        case this.shiftKeyPressed && keyCodes.SPACE:
-            evt.deltaY = windowHeight
+        case keyCodes.SPACE && this.shiftKeyPressed:
+            evt.deltaY = windowHeight;
             break;
         case keyCodes.SPACE:
-            evt.deltaY = - windowHeight
+            evt.deltaY = - windowHeight;
             break;
         default:
             return;
@@ -158,9 +160,7 @@ VirtualScroll.prototype._onKeyDown = function(e) {
 };
 
 VirtualScroll.prototype._onKeyUp = function(e) {
-    if (e.keyCode === keyCodes.SHIFT) {
-      this.shiftKeyPressed = false
-    }
+    if (e.keyCode === keyCodes.SHIFT) this.shiftKeyPressed = false;
 };
 
 VirtualScroll.prototype._bind = function() {
