@@ -4,7 +4,10 @@ var test = require('tape');
 var VirtualScroll = require('../src/index.js');
 var trigger = require('tiny-trigger');
 
-var KEY_CODE = 40;
+var KEY_CODE = {
+  DOWN: 40,
+  SPACE: 32,
+}
 var el = document.createElement('div');
 el.style.position = 'absolute';
 el.style.width = '400px';
@@ -43,7 +46,21 @@ test('Arrow scroll test', function(assert) {
         }
     });
 
-    triggerKeyboard();
+    triggerKeyboard(KEY_CODE.DOWN);
+});
+
+test('Space keypress', function(assert) {
+    var v = new VirtualScroll();
+
+    v.on(function(event) {
+        if (event.originalEvent.keyCode == KEY_CODE.SPACE) {
+            assert.pass('Event triggered by space key.');
+            v.destroy();
+            assert.end();
+        }
+    });
+
+    triggerKeyboard(KEY_CODE.SPACE);
 });
 
 test('Off test', function(assert) {
@@ -80,22 +97,22 @@ test('Destroy test', function(assert) {
     assert.end();
 });
 
-function triggerKeyboard() {
+function triggerKeyboard(keyCode) {
     var event = document.createEvent('KeyboardEvent');
     Object.defineProperty(event, 'keyCode', {
         get: function() {
-            return KEY_CODE;
+            return keyCode;
         }
     });
     Object.defineProperty(event, 'which', {
         get: function() {
-            return KEY_CODE;
+            return keyCode;
         }
     });
     if (event.initKeyboardEvent) {
-        event.initKeyboardEvent("keydown", true, true, document.defaultView, KEY_CODE, KEY_CODE, "", "", false, "");
+        event.initKeyboardEvent("keydown", true, true, document.defaultView, keyCode, keyCode, "", "", false, "");
     } else {
-        event.initKeyEvent("keydown", true, true, document.defaultView, false, false, false, false, KEY_CODE, 0);
+        event.initKeyEvent("keydown", true, true, document.defaultView, false, false, false, false, keyCode, 0);
     }
     document.dispatchEvent(event);
 }
