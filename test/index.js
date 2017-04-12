@@ -6,7 +6,7 @@ var trigger = require('tiny-trigger');
 
 var KEY_CODE = {
   DOWN: 40,
-  SPACE: 32,
+  SPACE: 32
 }
 var el = document.createElement('div');
 el.style.position = 'absolute';
@@ -53,7 +53,7 @@ test('Space keypress', function(assert) {
     var v = new VirtualScroll();
 
     v.on(function(event) {
-        if (event.originalEvent.keyCode == KEY_CODE.SPACE) {
+        if (!event.originalEvent.shiftKey && event.originalEvent.keyCode == KEY_CODE.SPACE) {
             assert.pass('Event triggered by space key.');
             v.destroy();
             assert.end();
@@ -61,6 +61,19 @@ test('Space keypress', function(assert) {
     });
 
     triggerKeyboard(KEY_CODE.SPACE);
+});
+
+test('Shift keypress', function(assert) {
+    var v = new VirtualScroll();
+
+    v.on(function(event) {
+        if (event.originalEvent.shiftKey && event.originalEvent.keyCode == KEY_CODE.SPACE) {
+            assert.pass('Event triggered by space and shift key.');
+            v.destroy();
+            assert.end();
+        }
+    });
+    triggerKeyboardWithShift(KEY_CODE.SPACE);
 });
 
 test('Off test', function(assert) {
@@ -97,7 +110,7 @@ test('Destroy test', function(assert) {
     assert.end();
 });
 
-function triggerKeyboard(keyCode) {
+function triggerKeyboard(keyCode, shiftKeyPressed) {
     var event = document.createEvent('KeyboardEvent');
     Object.defineProperty(event, 'keyCode', {
         get: function() {
@@ -110,9 +123,13 @@ function triggerKeyboard(keyCode) {
         }
     });
     if (event.initKeyboardEvent) {
-        event.initKeyboardEvent("keydown", true, true, document.defaultView, keyCode, keyCode, "", "", false, "");
+        event.initKeyboardEvent("keydown", true, true, document.defaultView, keyCode, keyCode, "", "", shiftKeyPressed ? "shift" : "", "");
     } else {
-        event.initKeyEvent("keydown", true, true, document.defaultView, false, false, false, false, keyCode, 0);
+        event.initKeyEvent("keydown", true, true, document.defaultView, false, false, shiftKeyPressed, false, keyCode, 0);
     }
     document.dispatchEvent(event);
+}
+
+function triggerKeyboardWithShift(keyCode) {
+  return triggerKeyboard(keyCode, true)
 }
