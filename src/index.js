@@ -14,13 +14,14 @@ var keyCodes = {
     LEFT: 37,
     UP: 38,
     RIGHT: 39,
-    DOWN: 40
+    DOWN: 40,
+    SPACE: 32
 };
 
 function VirtualScroll(options) {
     bindAll(this, '_onWheel', '_onMouseWheel', '_onTouchStart', '_onTouchMove', '_onKeyDown');
 
-	this.el = window;
+    this.el = window;
     if (options && options.el) {
         this.el = options.el;
         delete options.el;
@@ -44,7 +45,6 @@ function VirtualScroll(options) {
         deltaX: 0,
         deltaY: 0
     };
-
     this.touchStartX = null;
     this.touchStartY = null;
     this.bodyTouchAction = null;
@@ -67,7 +67,6 @@ VirtualScroll.prototype._notify = function(e) {
 VirtualScroll.prototype._onWheel = function(e) {
     var options = this.options;
     if (this._lethargy && this._lethargy.check(e) === false) return;
-
     var evt = this._event;
 
     // In Chrome and in Firefox (at least the new one)
@@ -128,6 +127,7 @@ VirtualScroll.prototype._onTouchMove = function(e) {
 VirtualScroll.prototype._onKeyDown = function(e) {
     var evt = this._event;
     evt.deltaX = evt.deltaY = 0;
+    var windowHeight = window.innerHeight - 40
 
     switch(e.keyCode) {
         case keyCodes.LEFT:
@@ -139,7 +139,12 @@ VirtualScroll.prototype._onKeyDown = function(e) {
         case keyCodes.DOWN:
             evt.deltaY = - this.options.keyStep;
             break;
-
+        case keyCodes.SPACE && e.shiftKey:
+            evt.deltaY = windowHeight;
+            break;
+        case keyCodes.SPACE:
+            evt.deltaY = - windowHeight;
+            break;
         default:
             return;
     }
