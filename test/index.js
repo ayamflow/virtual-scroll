@@ -63,7 +63,7 @@ test('Space keypress', function(assert) {
     triggerKeyboard(KEY_CODE.SPACE);
 });
 
-test('Shift keypress', function(assert) {
+test('Shift and space keypress', function(assert) {
     var v = new VirtualScroll();
 
     v.on(function(event) {
