@@ -4,8 +4,8 @@
   "description": "Smooth fake scroll using CSS transform",
   "main": "src/index.js",
   "scripts": {
-    "test": "./node_modules/.bin/prova ./test/**/*.js -b -l phantom -q",
-    "test-browser": "./node_modules/.bin/prova ./test/**/*.js -b -l chrome -q"
+    "test": "browserify test/index.js | tap-closer | smokestack | faucet",
+    "test-debug": "budo test/index.js --live"
   },
   "repository": {
     "type": "git",
@@ -29,7 +29,12 @@
     "tiny-emitter": "^1.0.0"
   },
   "devDependencies": {
-    "prova": "^2.1.2",
+    "browserify": "^14.3.0",
+    "budo": "^9.4.7",
+    "faucet": "0.0.1",
+    "smokestack": "^3.4.1",
+    "tap-closer": "^1.0.0",
+    "tape": "^4.6.3",
     "tiny-trigger": "scottcorgan/tiny-trigger"
   }
 }
