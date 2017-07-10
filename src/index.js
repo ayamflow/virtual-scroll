@@ -48,6 +48,10 @@ function VirtualScroll(options) {
     this.touchStartX = null;
     this.touchStartY = null;
     this.bodyTouchAction = null;
+
+    if (this.options.passive !== undefined) {
+        this.listenerOptions = {passive: this.options.passive};
+    }
 }
 
 VirtualScroll.prototype._notify = function(e) {
@@ -153,12 +157,12 @@ VirtualScroll.prototype._onKeyDown = function(e) {
 };
 
 VirtualScroll.prototype._bind = function() {
-    if(support.hasWheelEvent) this.el.addEventListener('wheel', this._onWheel);
-    if(support.hasMouseWheelEvent) this.el.addEventListener('mousewheel', this._onMouseWheel);
+    if(support.hasWheelEvent) this.el.addEventListener('wheel', this._onWheel, this.listenerOptions);
+    if(support.hasMouseWheelEvent) this.el.addEventListener('mousewheel', this._onMouseWheel, this.listenerOptions);
 
     if(support.hasTouch) {
-        this.el.addEventListener('touchstart', this._onTouchStart);
-        this.el.addEventListener('touchmove', this._onTouchMove);
+        this.el.addEventListener('touchstart', this._onTouchStart, this.listenerOptions);
+        this.el.addEventListener('touchmove', this._onTouchMove, this.listenerOptions);
     }
 
     if(support.hasPointer && support.hasTouchWin) {

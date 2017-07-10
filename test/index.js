@@ -76,6 +76,24 @@ test('Shift and space keypress', function(assert) {
     triggerKeyboardWithShift(KEY_CODE.SPACE);
 });
 
+test('Passive listener test', function(assert) {
+    var vNone = new VirtualScroll();
+    var vPassive = new VirtualScroll({
+        passive: true
+    });
+    var vActive = new VirtualScroll({
+        passive: false
+    });
+
+    assert.ok(vNone.listenerOptions === undefined, 'No passive option');
+    assert.ok(vPassive.listenerOptions.passive, 'Passive event listener');
+    assert.notOk(vActive.listenerOptions.passive, 'Active event listener');
+    vPassive.destroy();
+    vActive.destroy();
+    vNone.destroy();
+    assert.end();
+});
+
 test('Off test', function(assert) {
     var v = new VirtualScroll();
     var scrollCount = 0;
@@ -90,6 +108,7 @@ test('Off test', function(assert) {
     trigger(el, 'wheel');
 
     assert.ok(scrollCount === 1, 'Scroll handler should have fired only once.');
+    v.destroy();
     assert.end();
 });
 

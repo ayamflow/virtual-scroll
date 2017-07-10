@@ -42,6 +42,7 @@ Each instance will listen only once to any DOM listener. These listener are enab
 - preventTouch: If true, automatically call `e.preventDefault` on touchMove. *Defaults to false.*
 - unpreventTouchClass: Elements with this class won't `preventDefault` on touchMove. For instance, useful for a scrolling text inside a VirtualScroll-controled element. *Defaults to `vs-touchmove-allowed`*.
 - limitInertia: if true, will leverage [Lethargy](https://github.com/d4nyll/lethargy) to avoid everlasting scroll events (mostly on Apple Mouse, Trackpad, and free-wheel mouse). *Defaults to false.*
+- passive: if used, will use [passive events declaration](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener#Improving_scrolling_performance_with_passive_listeners) for the wheel and touch listeners. Can be true or false. *Defaults to undefined.*
 
 ### License
 MIT.
