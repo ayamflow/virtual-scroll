@@ -1,7 +1,6 @@
 'use strict';
 
 var Emitter = require('tiny-emitter');
-var Lethargy = require('lethargy').Lethargy;
 var support = require('./support');
 var bindAll = require('bindall-standalone');
 var EVT_ID = 'virtualscroll';
@@ -27,8 +26,6 @@ function VirtualScroll(options) {
         useKeyboard: true,
         useTouch: true
     }, options);
-
-    if (this.options.limitInertia) this._lethargy = new Lethargy();
 
     this._emitter = new Emitter();
     this._event = {
@@ -62,7 +59,6 @@ VirtualScroll.prototype._notify = function(e) {
 
 VirtualScroll.prototype._onWheel = function(e) {
     var options = this.options;
-    if (this._lethargy && this._lethargy.check(e) === false) return;
     var evt = this._event;
 
     // In Chrome and in Firefox (at least the new one)
@@ -83,7 +79,6 @@ VirtualScroll.prototype._onWheel = function(e) {
 };
 
 VirtualScroll.prototype._onMouseWheel = function(e) {
-    if (this.options.limitInertia && this._lethargy.check(e) === false) return;
 
     var evt = this._event;
 
