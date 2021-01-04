@@ -1,6 +1,5 @@
 'use strict';
 
-var objectAssign = require('object-assign');
 var Emitter = require('tiny-emitter');
 var Lethargy = require('lethargy').Lethargy;
 var support = require('./support');
@@ -17,7 +16,7 @@ function VirtualScroll(options) {
         this.el = options.el;
         delete options.el;
     }
-    this.options = objectAssign({
+    this.options = = Object.assign({
         mouseMultiplier: 1,
         touchMultiplier: 2,
         firefoxMultiplier: 15,

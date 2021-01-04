@@ -25,7 +25,6 @@
   "dependencies": {
     "bindall-standalone": "^1.0.5",
     "lethargy": "^1.0.2",
-    "object-assign": "^4.0.1",
     "tiny-emitter": "^1.0.0"
   },
   "devDependencies": {
