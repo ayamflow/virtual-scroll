@@ -1,8 +1,7 @@
 {
   "name": "virtual-scroll",
-  "version": "1.5.2",
-  "description": "Smooth fake scroll using CSS transform",
-  "main": "src/index.js",
+  "version": "2.0.0",
+  "description": "Custom scroll events for smooth, fake scroll",
   "main": "lib/virtualscroll.js",
   "module": "src/index.js",
   "source": "src/index.js",
