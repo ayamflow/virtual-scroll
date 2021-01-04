@@ -1,7 +1,7 @@
 'use strict';
 
 var test = require('tape');
-var VirtualScroll = require('../src/index.js');
+var VirtualScroll = require('../');
 var trigger = require('tiny-trigger');
 
 var KEY_CODE = {
@@ -12,7 +12,7 @@ var el = document.createElement('div');
 el.style.position = 'absolute';
 el.style.width = '400px';
 el.style.height = '400px';
-el.style.backgroundColor = 'red';
+el.style.backgroundColor = 'transparent';
 document.body.appendChild(el);
 
 test('Scroll with target test', function(assert) {
