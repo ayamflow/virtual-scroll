@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/ayamflow/virtual-scroll",
   "dependencies": {
-    "tiny-emitter": "^1.0.0"
+    "tiny-emitter": "^2.1.0"
   },
   "devDependencies": {
     "browserify": "^14.3.0",
