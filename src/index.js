@@ -2,13 +2,19 @@
 
 var Emitter = require('tiny-emitter');
 var support = require('./support');
-var bindAll = require('bindall-standalone');
 var EVT_ID = 'virtualscroll';
 
 module.exports = VirtualScroll;
 
 function VirtualScroll(options) {
-    bindAll(this, '_onWheel', '_onMouseWheel', '_onTouchStart', '_onTouchMove', '_onKeyDown');
+    // Make sure these events listeners have the proper context (for both .addEventListener and .removeEventListener)
+    bindThis([
+        '_onWheel',
+        '_onMouseWheel',
+        '_onTouchStart',
+        '_onTouchMove',
+        '_onKeyDown'
+    ], this)
 
     this.el = window;
     if (options && options.el) {
@@ -204,3 +210,9 @@ VirtualScroll.prototype.destroy = function() {
     this._emitter.off();
     this._unbind();
 };
+
+function bindThis(fns, ctx) {
+    fns.forEach(fn => {
+        ctx[fn] = ctx[fn].bind(ctx)
+    })
+}
