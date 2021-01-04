@@ -152,3 +152,9 @@ function triggerKeyboard(keyCode, shiftKeyPressed) {
 function triggerKeyboardWithShift(keyCode) {
   return triggerKeyboard(keyCode, true)
 }
+
+// Just used to close the testing window
+test('Wrap up testing', function(assert) {
+    assert.end()
+    window.close()
+})

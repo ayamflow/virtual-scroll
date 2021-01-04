@@ -4,7 +4,7 @@
   "description": "Smooth fake scroll using CSS transform",
   "main": "src/index.js",
   "scripts": {
-    "test": "browserify test/index.js | tap-closer | smokestack | faucet",
+    "test": "browserify test/index.js | smokestack | faucet",
     "test-debug": "budo test/index.js --live"
   },
   "repository": {
@@ -30,7 +30,6 @@
     "budo": "^9.4.7",
     "faucet": "0.0.1",
     "smokestack": "^3.4.1",
-    "tap-closer": "^1.0.0",
     "tape": "^4.6.3",
     "tiny-trigger": "scottcorgan/tiny-trigger"
   }
