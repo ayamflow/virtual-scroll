@@ -1,9 +1,8 @@
 {
   "name": "virtual-scroll",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Custom scroll events for smooth, fake scroll",
   "main": "lib/virtualscroll.js",
-  "module": "src/index.js",
   "source": "src/index.js",
   "scripts": {
     "build": "microbundle build -i src/index.js --format umd --compress --no-sourcemap --no-pkg-main --external none",
