@@ -148,11 +148,8 @@ export default class VirtualScroll {
             case keyCodes.DOWN:
                 evt.deltaY = -this.#options.keyStep
                 break
-            case keyCodes.SPACE && e.shiftKey:
-                evt.deltaY = windowHeight
-                break
             case keyCodes.SPACE:
-                evt.deltaY = -windowHeight
+                evt.deltaY = windowHeight * (e.shiftKey ? 1 : -1)
                 break
             default:
                 return
