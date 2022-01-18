@@ -1,8 +1,9 @@
 import Emitter from 'tiny-emitter'
-import { support } from './support'
+import { getSupport } from './support'
 import { keyCodes } from './keycodes'
 
 const EVT_ID = 'virtualscroll'
+var support
 
 export default class VirtualScroll {
     #options
@@ -28,6 +29,8 @@ export default class VirtualScroll {
             delete options.el
         }
         
+        if (!support) support = getSupport()
+
         this.#options = Object.assign(
             {
                 mouseMultiplier: 1,
