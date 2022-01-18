@@ -14,15 +14,6 @@ export default class VirtualScroll {
     #bodyTouchAction
 
     constructor(options) {
-        // Make sure these events listeners have the proper context (for both .addEventListener and .removeEventListener)
-        bindThis([
-            '_onWheel',
-            '_onMouseWheel',
-            '_onTouchStart',
-            '_onTouchMove',
-            '_onKeyDown'
-        ], this)
-
         this.#el = window
         if (options && options.el) {
             this.#el = options.el
@@ -77,7 +68,7 @@ export default class VirtualScroll {
         })
     }
 
-    _onWheel(e) {
+    _onWheel = (e) => {
         var options = this.#options
         var evt = this.#event
 
@@ -98,7 +89,7 @@ export default class VirtualScroll {
         this._notify(e)
     }
 
-    _onMouseWheel(e) {
+    _onMouseWheel = (e) => {
         var evt = this.#event
 
         // In Safari, IE and in Chrome if 'wheel' isn't defined
@@ -108,13 +99,13 @@ export default class VirtualScroll {
         this._notify(e)
     }
 
-    _onTouchStart(e) {
+    _onTouchStart = (e) => {
         var t = e.targetTouches ? e.targetTouches[0] : e
         this.#touchStart.x = t.pageX
         this.#touchStart.y = t.pageY
     }
 
-    _onTouchMove(e) {
+    _onTouchMove = (e) => {
         var options = this.#options
         if (
             options.preventTouch &&
@@ -136,7 +127,7 @@ export default class VirtualScroll {
         this._notify(e)
     }
 
-    _onKeyDown(e) {
+    _onKeyDown = (e) => {
         var evt = this.#event
         evt.deltaX = evt.deltaY = 0
         var windowHeight = window.innerHeight - 40
@@ -255,10 +246,4 @@ export default class VirtualScroll {
         this.#emitter.off()
         this._unbind()
     }
-}
-
-function bindThis(fns, ctx) {
-    fns.forEach(fn => {
-        ctx[fn] = ctx[fn].bind(ctx)
-    })
 }
