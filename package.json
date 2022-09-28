@@ -7,7 +7,8 @@
   "scripts": {
     "build": "microbundle build -i src/index.js --format umd --compress --no-sourcemap --no-pkg-main --external none",
     "test": "browserify test/index.js | smokestack | faucet",
-    "test-debug": "budo test/index.js --live"
+    "test-debug": "budo test/index.js --live",
+    "tsc": "tsc"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,7 @@
     "url": "https://github.com/ayamflow/virtual-scroll/issues"
   },
   "homepage": "https://github.com/ayamflow/virtual-scroll",
+  "types": "./typings/index.d.ts",
   "dependencies": {
     "tiny-emitter": "^2.1.0"
   },
@@ -34,6 +36,7 @@
     "microbundle": "^0.13.0",
     "smokestack": "^3.4.1",
     "tape": "^4.6.3",
-    "tiny-trigger": "scottcorgan/tiny-trigger"
+    "tiny-trigger": "scottcorgan/tiny-trigger",
+    "typescript": "^4.8.4"
   }
 }
