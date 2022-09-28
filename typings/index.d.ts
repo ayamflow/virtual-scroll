@@ -40,7 +40,7 @@ export default class VirtualScroll {
       passive: boolean;
     };
 
-    constructor(options: VirtualScrollOptions);
+    constructor(options?: VirtualScrollOptions);
 
     private _notify(e: WheelEvent | VirtualTouchEvent | KeyboardEvent): void;
 
