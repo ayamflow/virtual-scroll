@@ -1,7 +1,27 @@
 import { TinyEmitter } from "tiny-emitter";
 
+export interface VirtualScrollSupport {
+    hasWheelEvent: boolean;
+    hasMouseWheelEvent: boolean;
+    hasTouch: boolean;
+    hasTouchWin: boolean;
+    hasPointer: boolean;
+    hasKeyDown: boolean;
+    isFirefox: boolean;
+}
+
+export declare function getSupport(): VirtualScrollSupport;
+
+export declare enum VirtualScrollKeyCodes {
+    LEFT = 37,
+    UP = 38,
+    RIGHT = 39,
+    DOWN = 40,
+    SPACE = 32
+}
+
 export interface VirtualScrollOptions {
-    el?: HTMLElement;
+    el?: Element | HTMLElement | null;
     mouseMultiplier?: number;
     touchMultiplier?: number;
     firefoxMultiplier?: number;
