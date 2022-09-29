@@ -3,6 +3,7 @@
   "version": "2.2.1",
   "description": "Custom scroll events for smooth, fake scroll",
   "main": "lib/virtualscroll.js",
+  "types": "./typings/index.d.ts",
   "source": "src/index.js",
   "scripts": {
     "build": "microbundle build -i src/index.js --format umd --compress --no-sourcemap --no-pkg-main --external none",
