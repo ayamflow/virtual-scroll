@@ -7,7 +7,8 @@
   "scripts": {
     "build": "microbundle build -i src/index.js --format umd --compress --no-sourcemap --no-pkg-main --external none",
     "test": "browserify test/index.js | smokestack | faucet",
-    "test-debug": "budo test/index.js --live"
+    "test-debug": "budo test/index.js --live",
+    "typescript": "tsc" 
   },
   "repository": {
     "type": "git",
