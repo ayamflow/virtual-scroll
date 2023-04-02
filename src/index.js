@@ -236,7 +236,7 @@ export default class VirtualScroll {
     }
 
     off(cb, ctx) {
-        this.#emitter.off(EVT_ID, cb, ctx)
+        this.#emitter.off(EVT_ID, cb)
 
         var events = this.#emitter.e
         if (!events[EVT_ID] || events[EVT_ID].length <= 0) this._unbind()
