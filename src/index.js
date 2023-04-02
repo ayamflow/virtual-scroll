@@ -1,4 +1,4 @@
-import Emitter from 'tiny-emitter'
+import { Emitter } from 'tiny-emitter'
 import { getSupport } from './support'
 import { keyCodes } from './keycodes'
 
@@ -243,7 +243,7 @@ export default class VirtualScroll {
     }
 
     destroy() {
-        this.#emitter.off()
+        this.#emitter.off(EVT_ID)
         this._unbind()
     }
 }
